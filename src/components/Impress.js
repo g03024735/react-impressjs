@@ -300,7 +300,7 @@ export default class Impress extends Component {
       },
     }));
 
-    window.location.hash = _lastHash = '#/' + step.id;
+    // window.location.hash = _lastHash = '#/' + step.id;
   }
 
   // Navigate to the PREVIOUS Step.
