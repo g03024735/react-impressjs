@@ -28,6 +28,10 @@ let _lastHash  = '',
 export default class Impress extends Component {
   constructor(props) {
     console.log(`[constructor] _stepsData:`, _stepsData);
+    _lastHash  = '';
+    _stepsData = {};
+    _activeStep = undefined;
+    _idHelper  = 1;
     super(props);
 
     const {rootData, hint, hintMessage, fallbackMessage, progress} = props;
