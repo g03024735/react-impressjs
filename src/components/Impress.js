@@ -302,7 +302,8 @@ export default class Impress extends Component {
       },
     }));
 
-    window.location.hash = _lastHash = '#/' + step.id;
+    // window.location.hash = _lastHash = '#/' + step.id;
+    _lastHash = '#/' + step.id;
     console.log(`[goto] hash: ${_lastHash}`)
   }
 
