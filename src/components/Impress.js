@@ -27,7 +27,6 @@ let _lastHash  = '',
 
 export default class Impress extends Component {
   constructor(props) {
-    console.log(`[constructor] _stepsData:`, _stepsData);
     _lastHash  = '';
     _stepsData = {};
     _activeStep = undefined;
@@ -79,13 +78,10 @@ export default class Impress extends Component {
   }
 
   componentWillMount() {
-    console.log(`[componentWillMount]`)
-    // Init impress
     this.init();
   }
 
   componentDidMount() {
-    console.log(`[componentDidMount]`)
     const {impressSupported} = this.state;
 
     // 2017/2/28 暫時想不到好方法
@@ -129,7 +125,6 @@ export default class Impress extends Component {
 
     // URL hash change
     window.addEventListener('hashchange', throttle(() => {
-      console.log(`[hashchange] location hash: ${window.location.hash} _lastHash: ${_lastHash}`);
       if (window.location.hash !== _lastHash)
         this.goto(getElementFromHash(_stepsData), 500);
     }, 250), false);
@@ -245,7 +240,6 @@ export default class Impress extends Component {
       },
     });
 
-    console.log(`[initStep]:`, _stepsData);
   }
 
   /**
@@ -255,7 +249,6 @@ export default class Impress extends Component {
    * @param {number} duration 1000 speed of navigation.
    */
   goto(step, duration = 1000) {
-    console.log(`[goto] step:`, step);
     const {config, activeStep} = this.state;
     let {windowScale} = this.state;
 
@@ -313,7 +306,6 @@ export default class Impress extends Component {
 
     // window.location.hash = _lastHash = '#/' + step.id;
     _lastHash = '#/' + step.id;
-    console.log(`[goto] hash: ${_lastHash}`)
   }
 
   // Navigate to the PREVIOUS Step.
@@ -349,14 +341,9 @@ export default class Impress extends Component {
   next() {
     const {activeStep} = this.state;
     const stepsDataKeys = Object.keys(_stepsData);
-    console.log(`[next] stepsDataKeys`, stepsDataKeys);
-    console.log(`[next] activeStep`, this.state.activeStep);
     let next = stepsDataKeys.findIndex(k => k === activeStep.id) + 1;
-    console.log(`[next] next`, next);
     next = next < stepsDataKeys.length ? stepsDataKeys[next] : stepsDataKeys[0];
-    console.log(`[next] next`, next);
     next = _stepsData[next];
-    console.log(`[next] next`, next);
 
     this.goto(next, next.duration);
   }
@@ -411,9 +398,7 @@ export default class Impress extends Component {
    * @return {Step} to render children.
    */
   stepComponent(step, index) {
-    console.log(`[stepComponent] step:`, step, `index:`, index);
     const {activeStep} = this.state;
-    console.log(`[stepComponent] activeStep:`, activeStep);
     return React.cloneElement(step, {
       key: index,
       idHelper: step.props.id ? '' : _idHelper++,
@@ -434,7 +419,6 @@ export default class Impress extends Component {
     const steps = React.Children.map(this.props.children,
         this.stepComponent.bind(this));
     const stepsTotal = React.Children.count(this.props.children);
-    console.log(`render stepsTotal:`, stepsTotal);
     return (
         <div id="react-impressjs"
              className={
