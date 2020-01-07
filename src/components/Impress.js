@@ -27,6 +27,7 @@ let _lastHash  = '',
 
 export default class Impress extends Component {
   constructor(props) {
+    console.log(`[constructor] _stepsData:`, _stepsData);
     super(props);
 
     const {rootData, hint, hintMessage, fallbackMessage, progress} = props;
@@ -74,11 +75,13 @@ export default class Impress extends Component {
   }
 
   componentWillMount() {
+    console.log(`[componentWillMount]`)
     // Init impress
     this.init();
   }
 
   componentDidMount() {
+    console.log(`[componentDidMount]`)
     const {impressSupported} = this.state;
 
     // 2017/2/28 暫時想不到好方法
@@ -237,6 +240,8 @@ export default class Impress extends Component {
         },
       },
     });
+
+    console.log(`[initStep]:`, _stepsData);
   }
 
   /**
@@ -402,8 +407,9 @@ export default class Impress extends Component {
    * @return {Step} to render children.
    */
   stepComponent(step, index) {
+    console.log(`[stepComponent] step:`, step, `index:`, index);
     const {activeStep} = this.state;
-
+    console.log(`[stepComponent] activeStep:`, activeStep);
     return React.cloneElement(step, {
       key: index,
       idHelper: step.props.id ? '' : _idHelper++,
@@ -424,7 +430,7 @@ export default class Impress extends Component {
     const steps = React.Children.map(this.props.children,
         this.stepComponent.bind(this));
     const stepsTotal = React.Children.count(this.props.children);
-
+    console.log(`render stepsTotal:`, stepsTotal);
     return (
         <div id="react-impressjs"
              className={
