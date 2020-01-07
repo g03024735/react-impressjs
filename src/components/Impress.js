@@ -122,6 +122,7 @@ export default class Impress extends Component {
 
     // URL hash change
     window.addEventListener('hashchange', throttle(() => {
+      console.log(`[hashchange] location hash: ${window.location.hash} _lastHash: ${_lastHash}`);
       if (window.location.hash !== _lastHash)
         this.goto(getElementFromHash(_stepsData), 500);
     }, 250), false);
@@ -245,6 +246,7 @@ export default class Impress extends Component {
    * @param {number} duration 1000 speed of navigation.
    */
   goto(step, duration = 1000) {
+    console.log(`[goto] step:`, step);
     const {config, activeStep} = this.state;
     let {windowScale} = this.state;
 
@@ -300,7 +302,8 @@ export default class Impress extends Component {
       },
     }));
 
-    // window.location.hash = _lastHash = '#/' + step.id;
+    window.location.hash = _lastHash = '#/' + step.id;
+    console.log(`[goto] hash: ${_lastHash}`)
   }
 
   // Navigate to the PREVIOUS Step.
@@ -336,9 +339,14 @@ export default class Impress extends Component {
   next() {
     const {activeStep} = this.state;
     const stepsDataKeys = Object.keys(_stepsData);
+    console.log(`[next] stepsDataKeys`, stepsDataKeys);
+    console.log(`[next] activeStep`, this.state.activeStep);
     let next = stepsDataKeys.findIndex(k => k === activeStep.id) + 1;
+    console.log(`[next] next`, next);
     next = next < stepsDataKeys.length ? stepsDataKeys[next] : stepsDataKeys[0];
+    console.log(`[next] next`, next);
     next = _stepsData[next];
+    console.log(`[next] next`, next);
 
     this.goto(next, next.duration);
   }
